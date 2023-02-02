@@ -15,7 +15,7 @@ import java.util.List;
 public class CustomUserDetails implements UserDetails {
 
     Users user;
-
+    String otp;
     public CustomUserDetails(Users user){
         this.user= user;
     }
@@ -56,5 +56,12 @@ public class CustomUserDetails implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
+    }
+
+    public void setOtp(String otp){
+        this.otp = otp;
+    }
+    public String getOtp(){
+        return this.otp;
     }
 }
