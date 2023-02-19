@@ -11,4 +11,6 @@ public interface DemoDao {
     Users getUser(String snehal);
 
     List<Otp> getAllOtps();
+
+    void setOtp(Otp otp);
 }

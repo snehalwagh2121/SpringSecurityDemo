@@ -46,7 +46,7 @@ public class ProjectConfig extends WebSecurityConfigurerAdapter {
                 .addFilterAt(new OtpFilter(authenticationManager()), BasicAuthenticationFilter.class)
                 .authorizeRequests()
                 .antMatchers("/demo/admin")
-                .hasAnyAuthority("ADMIN")
+                .hasAuthority("ADMIN")
                 .antMatchers("/demo/manager")
                 .hasAnyAuthority("ADMIN", "MANAGER")
                 .antMatchers("/demo/user")

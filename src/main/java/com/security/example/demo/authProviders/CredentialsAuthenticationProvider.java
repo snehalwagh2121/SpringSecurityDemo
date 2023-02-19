@@ -1,8 +1,10 @@
 package com.security.example.demo.authProviders;
 
 import com.security.example.demo.authentication.CredentialsAuthentication;
+import com.security.example.demo.model.Otp;
 import com.security.example.demo.service.CustomUserDetails;
 import com.security.example.demo.service.CustomUserDetailsService;
+import com.security.example.demo.service.DemoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -20,6 +22,8 @@ public class CredentialsAuthenticationProvider implements AuthenticationProvider
     PasswordEncoder passwordEncoder;
     @Autowired
     CustomUserDetailsService userDetailsService;
+    @Autowired
+    DemoService demoService;
 
 
     @Override
@@ -27,9 +31,9 @@ public class CredentialsAuthenticationProvider implements AuthenticationProvider
         CustomUserDetails u = userDetailsService.loadUserByUsername(authentication.getName());
         if (u != null) {
             if (passwordEncoder.matches(u.getPassword(), authentication.getCredentials().toString())) {
-                u.setOtp(generateOTP());
+                u.setOtp(generateOTP(u.getUsername()));
                 UsernamePasswordAuthenticationToken authenticationObj =
-                        new UsernamePasswordAuthenticationToken(u, null, u.getAuthorities());
+                        new UsernamePasswordAuthenticationToken(u, null, null);
                 authenticationObj.setDetails(u.getOtp());
                 SecurityContextHolder.getContext().setAuthentication(authenticationObj);
                 System.out.println("credentials are valid ");
@@ -45,9 +49,11 @@ public class CredentialsAuthenticationProvider implements AuthenticationProvider
 
     }
 
-    private String generateOTP() {
+    private String generateOTP(String username) {
         System.out.println("generating otp");
         String otp = String.valueOf(Math.random()).substring(2, 8);
+        Otp otpObj = new Otp(username, otp);
+        demoService.setOtp(otpObj);
         return otp;
     }
 

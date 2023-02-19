@@ -38,7 +38,9 @@ public class OtpFilter extends OncePerRequestFilter {
 
         if (otp == null) {
             Authentication authentication = new CredentialsAuthentication(username, password);
-            authenticationManager.authenticate(authentication);
+            authentication = authenticationManager.authenticate(authentication);
+            log.info("otp in response: " + authentication.getDetails());
+            response.setHeader("otp", (String) authentication.getDetails());
         } else {
             Authentication authentication = new OtpAuthentication(username, otp);
             authenticationManager.authenticate(authentication);

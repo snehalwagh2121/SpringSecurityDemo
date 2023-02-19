@@ -33,4 +33,9 @@ public class DemoServiceImpl implements DemoService {
     public List<Otp> getAllOtps() {
         return dao.getAllOtps();
     }
+
+    @Override
+    public void setOtp(Otp otp) {
+        dao.setOtp(otp);
+    }
 }

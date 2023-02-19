@@ -11,4 +11,6 @@ public interface DemoService {
     boolean verifyOtp(String otp);
 
     List<Otp> getAllOtps();
+
+    void setOtp(Otp otp);
 }

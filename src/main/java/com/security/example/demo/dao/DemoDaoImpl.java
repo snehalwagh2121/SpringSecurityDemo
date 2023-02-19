@@ -30,4 +30,9 @@ public class DemoDaoImpl implements DemoDao {
     public List<Otp> getAllOtps() {
         return (List<Otp>) otpRepository.findAll();
     }
+
+    @Override
+    public void setOtp(Otp otp) {
+        otpRepository.save(otp);
+    }
 }
