@@ -16,6 +16,8 @@ public class CustomUserDetails implements UserDetails {
 
     Users user;
     String otp;
+    boolean otpVerified =false;
+
     public CustomUserDetails(Users user){
         this.user= user;
     }
@@ -63,5 +65,12 @@ public class CustomUserDetails implements UserDetails {
     }
     public String getOtp(){
         return this.otp;
+    }
+
+    public boolean getOtpVerified() {
+        return otpVerified;
+    }
+    public void setOtpVerified(boolean otpVerified) {
+        this.otpVerified = otpVerified;
     }
 }

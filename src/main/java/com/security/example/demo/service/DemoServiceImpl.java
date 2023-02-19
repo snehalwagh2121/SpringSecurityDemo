@@ -1,6 +1,7 @@
 package com.security.example.demo.service;
 
 import com.security.example.demo.dao.DemoDao;
+import com.security.example.demo.model.Otp;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -9,6 +10,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
+
+import java.util.List;
 
 @Service
 @Slf4j
@@ -27,5 +30,10 @@ public class DemoServiceImpl implements DemoService {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         log.info("details: "+authentication.getDetails());
         return authentication.getDetails().equals(otp);
+    }
+
+    @Override
+    public List<Otp> getAllOtps() {
+        return dao.getAllOtps();
     }
 }
