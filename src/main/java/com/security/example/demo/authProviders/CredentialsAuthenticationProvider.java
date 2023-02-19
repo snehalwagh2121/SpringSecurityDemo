@@ -4,7 +4,6 @@ import com.security.example.demo.authentication.CredentialsAuthentication;
 import com.security.example.demo.service.CustomUserDetails;
 import com.security.example.demo.service.CustomUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -48,7 +47,7 @@ public class CredentialsAuthenticationProvider implements AuthenticationProvider
 
     private String generateOTP() {
         System.out.println("generating otp");
-        String otp = String.valueOf(Math.random()).substring(2,8);
+        String otp = String.valueOf(Math.random()).substring(2, 8);
         return otp;
     }
 
