@@ -16,17 +16,16 @@ public class CustomUserDetails implements UserDetails {
 
     Users user;
     String otp;
-    boolean otpVerified =false;
 
-    public CustomUserDetails(Users user){
-        this.user= user;
+    public CustomUserDetails(Users user) {
+        this.user = user;
     }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        String role= user.getRole();
-        log.info("role: "+role);
-        List<SimpleGrantedAuthority> authorityList= new ArrayList<SimpleGrantedAuthority>(Arrays.asList(new SimpleGrantedAuthority(role)));
+        String role = user.getRole();
+        log.info("role: " + role);
+        List<SimpleGrantedAuthority> authorityList = new ArrayList<SimpleGrantedAuthority>(Arrays.asList(new SimpleGrantedAuthority(role)));
         return authorityList;
     }
 
@@ -60,17 +59,15 @@ public class CustomUserDetails implements UserDetails {
         return true;
     }
 
-    public void setOtp(String otp){
-        this.otp = otp;
-    }
-    public String getOtp(){
+    public String getOtp() {
         return this.otp;
     }
 
-    public boolean getOtpVerified() {
-        return otpVerified;
+    public void setOtp(String otp) {
+        this.otp = otp;
     }
-    public void setOtpVerified(boolean otpVerified) {
-        this.otpVerified = otpVerified;
+
+    public String getMobileno() {
+        return this.user.getMobileno();
     }
 }

@@ -18,6 +18,8 @@ public class Users {
 
     private String password;
 
+    private String mobileno;
+
     private String role;
 
 }

@@ -86,3 +86,18 @@ The solution was that we need to embed it in the filter in constructor:
         this.authenticationManager = authenticationManager;
     }
 ```
+
+#Send SMS through mobile using TWILIO
+
+We need to add twilio dependency first. Then add mobile number to the columns of Users. 
+Previously we were sending otp in header, now we wil send it to the mobile number.
+
+To send msgs via twilio, we need to create a new account, and get one number. Then since i used a trial account, I got a US based number with the help of which i can send msgs. 
+And I have to register each mobile number to which i will be sending the msg.
+
+The code is pretty much simple. For reference follow below commit. I have not added the ProjectConstants file becasue of security, but I have defines the following constants there:
+```java
+    public static String TWILIO_SID="#######################";
+    public static String TWILIO_TOKEN="##############################";
+    public static String TWILIO_REGISTERED_NO="##########";
+```
