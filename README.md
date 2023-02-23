@@ -102,3 +102,17 @@ The code is pretty much simple. For reference follow below commit. I have not ad
     public static String TWILIO_REGISTERED_NO="##########";
 ```
 [commit id](https://github.com/snehalwagh2121/SpringSecurityDemo/commit/d2755f23e49b5c4ec6c71d9b576b793a7fbe9778)
+
+#Authenticate using JWT token
+
+We need JWT dependency to create the jwt token. 
+The JWTUtil will have all the methods required for the authentication.
+
+The JWT token will have following methods:
+1. Generate token: This method will generate the JWT token with subject as username, we can set expiry date, creation date. We need a signWith() and provide the hashing algo, i've used HS512. We also need secret so that way our token will be secure I guess. 
+2. validate OTP - this will validate user. It will take 2 parameters, 1 will have the token, and other one will be having UserDetails obj of the user.
+The username can be extracted from the jwt token, and can be matched with the one provided in the request. 
+
+A new filter JWTFilter will be responsible to call the JwtAuthorizationProvider. Which will call the verifyToken from JWTUtils class.  
+
+[commit id](https://github.com/snehalwagh2121/SpringSecurityDemo/commit/9e14c48569921f1c109b834175ad0ab6b62e4a94)
