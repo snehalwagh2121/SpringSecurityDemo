@@ -1,7 +1,9 @@
 package com.security.example.demo.config;
 
 import com.security.example.demo.authProviders.CredentialsAuthenticationProvider;
+import com.security.example.demo.authProviders.JWTAuthenticationProvider;
 import com.security.example.demo.authProviders.OtpAuthenticationProvider;
+import com.security.example.demo.filter.JWTFilter;
 import com.security.example.demo.filter.OtpFilter;
 import com.security.example.demo.passwordEncoder.CustomPasswordEncoder;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,11 +24,13 @@ import java.util.Arrays;
 public class ProjectConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
-    CredentialsAuthenticationProvider authProvider;
+    CredentialsAuthenticationProvider credentialsAuthProvider;
 
     @Autowired
     OtpAuthenticationProvider otpAuthenticationProvider;
 
+    @Autowired
+    JWTAuthenticationProvider jwtAuthenticationProvider;
 
     @Bean
     PasswordEncoder passwordEncoder() {
@@ -36,14 +40,16 @@ public class ProjectConfig extends WebSecurityConfigurerAdapter {
     @Override
     public void configure(AuthenticationManagerBuilder auth) {
         System.out.println("configuring auth providers");
-        auth.authenticationProvider(authProvider)
-                .authenticationProvider(otpAuthenticationProvider);
+        auth.authenticationProvider(credentialsAuthProvider)
+                .authenticationProvider(otpAuthenticationProvider)
+        .authenticationProvider(jwtAuthenticationProvider);
     }
 
     @Override
     public void configure(HttpSecurity http) throws Exception {
         http
-                .addFilterAt(new OtpFilter(authenticationManager()), BasicAuthenticationFilter.class)
+                .addFilterAt(otpFilter(), BasicAuthenticationFilter.class)
+                .addFilterAfter(jwtFilter(), BasicAuthenticationFilter.class)
                 .authorizeRequests()
                 .antMatchers("/demo/admin")
                 .hasAuthority("ADMIN")
@@ -58,11 +64,22 @@ public class ProjectConfig extends WebSecurityConfigurerAdapter {
         ;
     }
 
+    @Bean
+    public OtpFilter otpFilter(){
+        return new OtpFilter();
+    }
+
+    @Bean
+    public JWTFilter jwtFilter(){
+        return new JWTFilter();
+    }
+
     @Override
     @Bean
     protected AuthenticationManager authenticationManager() throws Exception {
         return new ProviderManager(Arrays.asList((AuthenticationProvider) otpAuthenticationProvider,
-                (AuthenticationProvider) authProvider));
+                (AuthenticationProvider) credentialsAuthProvider,
+                (AuthenticationProvider) jwtAuthenticationProvider));
     }
 
 }

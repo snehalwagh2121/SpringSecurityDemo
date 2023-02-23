@@ -28,13 +28,13 @@ public class OtpAuthenticationProvider implements AuthenticationProvider {
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
         System.out.println("username: " + authentication.getName());
         Otp otpFromDB = otpRepository.findOtpByUsername(authentication.getName());
-
+        log.info("otp from db: "+otpFromDB.getOtp());
         if (((String) authentication.getCredentials()).equals(otpFromDB.getOtp())) {
             log.info("otp is matching");
             log.info("getting user authorities from DB");
             CustomUserDetails u = userDetailsService.loadUserByUsername(authentication.getName());
             UsernamePasswordAuthenticationToken authenticationObj =
-                    new UsernamePasswordAuthenticationToken(u, null, u.getAuthorities());
+                    new UsernamePasswordAuthenticationToken(u, null, null);
             SecurityContextHolder.getContext().setAuthentication(authenticationObj);
             return authenticationObj;
         }
