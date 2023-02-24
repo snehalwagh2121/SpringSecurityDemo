@@ -15,7 +15,7 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
-@Component
+//@Component
 @Slf4j
 public class OtpAuthenticationProvider implements AuthenticationProvider {
 

@@ -116,3 +116,14 @@ The username can be extracted from the jwt token, and can be matched with the on
 A new filter JWTFilter will be responsible to call the JwtAuthorizationProvider. Which will call the verifyToken from JWTUtils class.  
 
 [commit id](https://github.com/snehalwagh2121/SpringSecurityDemo/commit/9e14c48569921f1c109b834175ad0ab6b62e4a94)
+
+
+#OAuth with github
+1. create a app in github under Settings -> DeveloperSettings -> OAuth Apps -> New Oauth App 
+Give name, description, URL as the application url like http://localhost:9010 and Authorization callback url = http://localhost:9010/login/oauth2/code/github
+
+The OAuth redirect URI is the path in the application that the end-user’s user-agent is redirected back to after they have authenticated with GitHub and have granted access to the application on the Authorize application page.
+
+For the Oauth to work, i had to remove the authentication managers definitions. ELse it was redirecting again and again to the github authentication page. Not sure why.
+
+But after removing the beans related to UserDetailsService, AuthorizationProviders, AuthenticationManagers, etc. and keeping only the Oauth dependency and github clientId and clientSecret, everything worked fine.

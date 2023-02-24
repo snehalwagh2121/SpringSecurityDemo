@@ -13,7 +13,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
-@Component
+//@Component
 @Slf4j
 public class JWTAuthenticationProvider implements AuthenticationProvider {
     @Autowired

@@ -16,70 +16,74 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 
 import java.util.Arrays;
 
 @Configuration
 public class ProjectConfig extends WebSecurityConfigurerAdapter {
 
-    @Autowired
-    CredentialsAuthenticationProvider credentialsAuthProvider;
+//    @Autowired
+//    CredentialsAuthenticationProvider credentialsAuthProvider;
+//
+//    @Autowired
+//    OtpAuthenticationProvider otpAuthenticationProvider;
+//
+//    @Autowired
+//    JWTAuthenticationProvider jwtAuthenticationProvider;
 
-    @Autowired
-    OtpAuthenticationProvider otpAuthenticationProvider;
+//    @Bean
+//    PasswordEncoder passwordEncoder() {
+//        return new CustomPasswordEncoder();
+//    }
 
-    @Autowired
-    JWTAuthenticationProvider jwtAuthenticationProvider;
-
-    @Bean
-    PasswordEncoder passwordEncoder() {
-        return new CustomPasswordEncoder();
-    }
-
-    @Override
-    public void configure(AuthenticationManagerBuilder auth) {
-        System.out.println("configuring auth providers");
-        auth.authenticationProvider(credentialsAuthProvider)
-                .authenticationProvider(otpAuthenticationProvider)
-        .authenticationProvider(jwtAuthenticationProvider);
-    }
+//    @Override
+//    public void configure(AuthenticationManagerBuilder auth) {
+//        System.out.println("configuring auth providers");
+//        auth.authenticationProvider(credentialsAuthProvider)
+//                .authenticationProvider(otpAuthenticationProvider)
+//                .authenticationProvider(jwtAuthenticationProvider);
+//    }
 
     @Override
     public void configure(HttpSecurity http) throws Exception {
         http
-                .addFilterAt(otpFilter(), BasicAuthenticationFilter.class)
-                .addFilterAfter(jwtFilter(), BasicAuthenticationFilter.class)
+//                .addFilterAt(otpFilter(), BasicAuthenticationFilter.class)
+//                .addFilterAfter(jwtFilter(), BasicAuthenticationFilter.class)
+//                .authorizeRequests()
+//                .antMatchers("/demo/admin")
+//                .hasAuthority("ADMIN")
+//                .antMatchers("/demo/manager")
+//                .hasAnyAuthority("ADMIN", "MANAGER")
+//                .antMatchers("/demo/user")
+//                .hasAnyAuthority("USER", "MANAGER", "ADMIN")
+//                .antMatchers("/demo/otp")
+//                .permitAll()
+//                .antMatchers("/otp")
+//                .permitAll()
                 .authorizeRequests()
-                .antMatchers("/demo/admin")
-                .hasAuthority("ADMIN")
-                .antMatchers("/demo/manager")
-                .hasAnyAuthority("ADMIN", "MANAGER")
-                .antMatchers("/demo/user")
-                .hasAnyAuthority("USER", "MANAGER", "ADMIN")
-                .antMatchers("/demo/otp")
-                .permitAll()
-                .antMatchers("/otp")
-                .permitAll()
+                .anyRequest()
+                .authenticated()
+                .and()
+                .oauth2Login();
         ;
     }
 
-    @Bean
-    public OtpFilter otpFilter(){
-        return new OtpFilter();
-    }
-
-    @Bean
-    public JWTFilter jwtFilter(){
-        return new JWTFilter();
-    }
-
-    @Override
-    @Bean
-    protected AuthenticationManager authenticationManager() throws Exception {
-        return new ProviderManager(Arrays.asList((AuthenticationProvider) otpAuthenticationProvider,
-                (AuthenticationProvider) credentialsAuthProvider,
-                (AuthenticationProvider) jwtAuthenticationProvider));
-    }
+//    @Bean
+//    public OtpFilter otpFilter() {
+//        return new OtpFilter();
+//    }
+//
+//    @Bean
+//    public JWTFilter jwtFilter() {
+//        return new JWTFilter();
+//    }
+//
+//    @Override
+//    @Bean
+//    protected AuthenticationManager authenticationManager() throws Exception {
+//        return new ProviderManager(Arrays.asList((AuthenticationProvider) otpAuthenticationProvider,
+//                (AuthenticationProvider) credentialsAuthProvider,
+//                (AuthenticationProvider) jwtAuthenticationProvider));
+//    }
 
 }
